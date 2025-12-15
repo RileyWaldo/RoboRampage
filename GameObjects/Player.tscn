@@ -1,13 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://dimljn12f5j31"]
+[gd_scene load_steps=6 format=3 uid="uid://dimljn12f5j31"]
 
 [ext_resource type="Script" uid="uid://rpjsjcxah425" path="res://Scripts/Player.gd" id="1_lu7l2"]
 [ext_resource type="Script" uid="uid://bgdqv05exlrcj" path="res://Scripts/SmoothCamera.gd" id="2_nj4ej"]
+[ext_resource type="Script" uid="uid://idrij1veldtp" path="res://Scripts/Crossheir.gd" id="3_0yq7s"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_y23oo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_360t6"]
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" groups=["player"]]
 script = ExtResource("1_lu7l2")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -25,3 +26,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
 top_level = true
 script = ExtResource("2_nj4ej")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Crossheir" type="Control" parent="CenterContainer"]
+layout_mode = 2
+script = ExtResource("3_0yq7s")
