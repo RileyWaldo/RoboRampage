@@ -1,11 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://2n6ncod8u278"]
+[gd_scene load_steps=8 format=3 uid="uid://2n6ncod8u278"]
 
 [ext_resource type="FontFile" uid="uid://cemykaucqg8h" path="res://Assets/Staatliches/Staatliches-Regular.ttf" id="1_5y2gc"]
 [ext_resource type="Script" uid="uid://e1be8j5s2ro0" path="res://Scripts/GameOverMenu.gd" id="2_i77vu"]
+[ext_resource type="Shader" uid="uid://bfn5iifdi1jmf" path="res://Assets/GameOverMenu.tres" id="3_gkinh"]
 
 [sub_resource type="Theme" id="Theme_i77vu"]
 default_font = ExtResource("1_5y2gc")
 default_font_size = 64
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x28m7"]
+shader = ExtResource("3_gkinh")
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_gkinh"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_gkinh"]
 font_size = 24
@@ -21,14 +27,25 @@ grow_vertical = 2
 theme = SubResource("Theme_i77vu")
 script = ExtResource("2_i77vu")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="BackgroundBlur" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_x28m7")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.11612659, 0.11612659, 0.116126545, 0.7764706)
+texture = SubResource("PlaceholderTexture2D_gkinh")
+stretch_mode = 3
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05490196, 0.05490196, 0.05490196, 0.8235294)
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1

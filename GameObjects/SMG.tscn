@@ -28,12 +28,40 @@ scale_curve = SubResource("CurveTexture_n77aa")
 size = Vector3(0.1, 0.1, 0.1)
 
 [node name="HitScanSMG" node_paths=PackedStringArray("weaponMesh", "muzzleFlash") instance=ExtResource("1_m78fw")]
+automatic = true
 weaponMesh = NodePath("SMG")
 muzzleFlash = NodePath("MuzzleFlash")
 sparks = ExtResource("2_n77aa")
 
 [node name="SMG" parent="." index="1" instance=ExtResource("2_3ihdv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.405, -0.366, -1.139842)
+
+[node name="Suppressors_003" parent="SMG" index="0"]
+layers = 2
+
+[node name="Part_024" parent="SMG" index="1"]
+layers = 2
+
+[node name="Rail_009" parent="SMG" index="2"]
+layers = 2
+
+[node name="Grip_017" parent="SMG" index="3"]
+layers = 2
+
+[node name="Charger_011" parent="SMG" index="4"]
+layers = 2
+
+[node name="Scope_016" parent="SMG" index="5"]
+layers = 2
+
+[node name="Part_029" parent="SMG" index="6"]
+layers = 2
+
+[node name="Part_030" parent="SMG" index="7"]
+layers = 2
+
+[node name="Gun butt_012" parent="SMG" index="8"]
+layers = 2
 
 [node name="MuzzleFlash" type="GPUParticles3D" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4049468, -0.31663376, -2.2268689)
@@ -48,3 +76,5 @@ fixed_fps = 60
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_appwj")
 draw_pass_1 = SubResource("BoxMesh_kajcb")
+
+[editable path="SMG"]

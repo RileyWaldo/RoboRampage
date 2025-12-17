@@ -2,6 +2,7 @@ extends Node3D
 
 @export var weaponDamage := 10
 @export var fireRate := 14.0
+@export var automatic := false
 @export var recoil := 0.05
 @export var recoilSpeed := 10.0
 @export var weaponMesh: Node3D
@@ -18,8 +19,12 @@ func _process(delta: float) -> void:
 	weaponMesh.position = weaponMesh.position.lerp(weaponStartPosition, delta * recoilSpeed)
 	
 func Shoot() -> void:
-	if(!Input.is_action_pressed("fire")):
-		return
+	if(automatic):
+		if(!Input.is_action_pressed("fire")):
+			return
+	else:
+		if(!Input.is_action_just_pressed("fire")):
+			return
 	if(!cooldownTimer.is_stopped()):
 		return
 		
