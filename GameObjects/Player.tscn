@@ -1,13 +1,76 @@
-[gd_scene load_steps=7 format=3 uid="uid://dimljn12f5j31"]
+[gd_scene load_steps=12 format=3 uid="uid://dimljn12f5j31"]
 
 [ext_resource type="Script" uid="uid://rpjsjcxah425" path="res://Scripts/Player.gd" id="1_lu7l2"]
 [ext_resource type="Script" uid="uid://bgdqv05exlrcj" path="res://Scripts/SmoothCamera.gd" id="2_nj4ej"]
 [ext_resource type="Script" uid="uid://idrij1veldtp" path="res://Scripts/Crossheir.gd" id="3_0yq7s"]
 [ext_resource type="PackedScene" uid="uid://bsei41k7wqabo" path="res://GameObjects/SMG.tscn" id="3_hwx2g"]
+[ext_resource type="Texture2D" uid="uid://b6lpow0xh5x4y" path="res://Assets/damage.png" id="5_ortbp"]
+[ext_resource type="PackedScene" uid="uid://2n6ncod8u278" path="res://GameObjects/GameOverMenu.tscn" id="6_hfly6"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_y23oo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_360t6"]
+
+[sub_resource type="Animation" id="Animation_hfly6"]
+resource_name = "TakeDamage"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_nukyv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v8uht"]
+_data = {
+&"RESET": SubResource("Animation_nukyv"),
+&"TakeDamage": SubResource("Animation_hfly6")
+}
 
 [node name="Player" type="CharacterBody3D" groups=["player"]]
 script = ExtResource("1_lu7l2")
@@ -24,11 +87,61 @@ shape = SubResource("CapsuleShape3D_360t6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
 
 [node name="SmoothCamera" type="Camera3D" parent="CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2810733, 0)
 top_level = true
+cull_mask = 1048573
 script = ExtResource("2_nj4ej")
 
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="CameraPivot/SmoothCamera"]
+remote_path = NodePath("../../../SubViewportContainer/SubViewport/Camera3D")
+
 [node name="HitScanSMG" parent="CameraPivot" instance=ExtResource("3_hwx2g")]
+
+[node name="Suppressors_003" parent="CameraPivot/HitScanSMG/SMG" index="0"]
+layers = 2
+
+[node name="Part_024" parent="CameraPivot/HitScanSMG/SMG" index="1"]
+layers = 2
+
+[node name="Rail_009" parent="CameraPivot/HitScanSMG/SMG" index="2"]
+layers = 2
+
+[node name="Grip_017" parent="CameraPivot/HitScanSMG/SMG" index="3"]
+layers = 2
+
+[node name="Charger_011" parent="CameraPivot/HitScanSMG/SMG" index="4"]
+layers = 2
+
+[node name="Scope_016" parent="CameraPivot/HitScanSMG/SMG" index="5"]
+layers = 2
+
+[node name="Part_029" parent="CameraPivot/HitScanSMG/SMG" index="6"]
+layers = 2
+
+[node name="Part_030" parent="CameraPivot/HitScanSMG/SMG" index="7"]
+layers = 2
+
+[node name="Gun butt_012" parent="CameraPivot/HitScanSMG/SMG" index="8"]
+layers = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2810733, 0)
+cull_mask = 2
+fov = 40.0
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchors_preset = 15
@@ -40,3 +153,24 @@ grow_vertical = 2
 [node name="Crossheir" type="Control" parent="CenterContainer"]
 layout_mode = 2
 script = ExtResource("3_0yq7s")
+
+[node name="DamageOverlay" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(576, 324)
+texture = ExtResource("5_ortbp")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="DamageOverlay"]
+libraries = {
+&"": SubResource("AnimationLibrary_v8uht")
+}
+autoplay = "RESET"
+
+[node name="GameOverMenu" parent="." instance=ExtResource("6_hfly6")]
+
+[editable path="CameraPivot/HitScanSMG"]
+[editable path="CameraPivot/HitScanSMG/SMG"]

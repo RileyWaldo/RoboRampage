@@ -33,10 +33,11 @@ muzzleFlash = NodePath("MuzzleFlash")
 sparks = ExtResource("2_n77aa")
 
 [node name="SMG" parent="." index="1" instance=ExtResource("2_3ihdv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.405, -0.366, -0.345)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.405, -0.366, -1.139842)
 
 [node name="MuzzleFlash" type="GPUParticles3D" parent="." index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4049468, -0.31663376, -1.4722493)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4049468, -0.31663376, -2.2268689)
+layers = 2
 material_override = SubResource("StandardMaterial3D_m78fw")
 cast_shadow = 0
 emitting = false

@@ -135,3 +135,6 @@ material = ExtResource("3_yawbu")
 
 [node name="Enemy" parent="." instance=ExtResource("4_yawbu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.511864, 0, -29.194426)
+
+[node name="Enemy2" parent="." instance=ExtResource("4_yawbu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.488136, 0, -17.194426)

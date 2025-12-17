@@ -1,0 +1,69 @@
+[gd_scene load_steps=5 format=3 uid="uid://2n6ncod8u278"]
+
+[ext_resource type="FontFile" uid="uid://cemykaucqg8h" path="res://Assets/Staatliches/Staatliches-Regular.ttf" id="1_5y2gc"]
+[ext_resource type="Script" uid="uid://e1be8j5s2ro0" path="res://Scripts/GameOverMenu.gd" id="2_i77vu"]
+
+[sub_resource type="Theme" id="Theme_i77vu"]
+default_font = ExtResource("1_5y2gc")
+default_font_size = 64
+
+[sub_resource type="LabelSettings" id="LabelSettings_gkinh"]
+font_size = 24
+
+[node name="GameOverMenu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_i77vu")
+script = ExtResource("2_i77vu")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.11612659, 0.11612659, 0.116126545, 0.7764706)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "You're dead.
+Your friends are dead.
+Your family's dead.
+Your fuckin' pets are bein' skinned alive.
+Your mom's a fuckin' whore.
+You suck at life.
+The whole world hates you. 
+You're goin' to Hell.
+Live with it.
+Game Over."
+label_settings = SubResource("LabelSettings_gkinh")
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Retry"
+
+[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quoet"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

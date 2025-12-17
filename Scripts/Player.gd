@@ -9,13 +9,17 @@ class_name Player
 
 var health: int = maxHealth:
 	set(value):
+		if(value < health):
+			damageOverlay.stop(false)
+			damageOverlay.play("TakeDamage")
 		health = value
 		if(health <= 0):
 			Die()
 var mouseMotion: Vector2 = Vector2.ZERO
 
 @onready var cameraPivot: Node3D = $CameraPivot
-
+@onready var damageOverlay: AnimationPlayer = $DamageOverlay/AnimationPlayer
+@onready var gameOverMenu: Control = $GameOverMenu
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -51,11 +55,11 @@ func _input(event: InputEvent) -> void:
 	if(event is InputEventMouseMotion):
 		if(Input.mouse_mode == Input.MOUSE_MODE_CAPTURED):
 			mouseMotion = -event.relative * 0.001
-			
-	if(event is InputEventMouseButton):
-		if(event.pressed and event.button_index == MOUSE_BUTTON_LEFT):
-			if(Input.mouse_mode == Input.MOUSE_MODE_VISIBLE):
-				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	
+		if(event is InputEventMouseButton):
+			if(event.pressed and event.button_index == MOUSE_BUTTON_LEFT):
+				if(Input.mouse_mode == Input.MOUSE_MODE_VISIBLE):
+					Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
 	if(event.is_action_pressed("ui_cancel")):
 		if(Input.mouse_mode == Input.MOUSE_MODE_CAPTURED):
@@ -70,4 +74,4 @@ func HandleCameraRotation() -> void:
 	mouseMotion = Vector2.ZERO
 
 func Die() -> void:
-	get_tree().reload_current_scene()
+	gameOverMenu.GameOver()
