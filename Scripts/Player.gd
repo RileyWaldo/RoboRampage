@@ -1,11 +1,17 @@
 extends CharacterBody3D
+class_name Player
 
-
-@export var moveSpeed = 5.0
+@export var maxHealth := 100
+@export var moveSpeed := 5.0
 ##How high the player can jump in meters
-@export var jumpHeight = 1.0
-@export var fallMultiplyer: float = 2.0
+@export var jumpHeight := 1.0
+@export var fallMultiplyer := 2.0
 
+var health: int = maxHealth:
+	set(value):
+		health = value
+		if(health <= 0):
+			Die()
 var mouseMotion: Vector2 = Vector2.ZERO
 
 @onready var cameraPivot: Node3D = $CameraPivot
@@ -62,3 +68,6 @@ func HandleCameraRotation() -> void:
 	cameraPivot.rotate_x(mouseMotion.y)
 	cameraPivot.rotation_degrees.x = clampf(cameraPivot.rotation_degrees.x, -90.0, 90.0)
 	mouseMotion = Vector2.ZERO
+
+func Die() -> void:
+	get_tree().reload_current_scene()

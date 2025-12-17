@@ -1,10 +1,49 @@
-[gd_scene load_steps=3 format=3 uid="uid://bsei41k7wqabo"]
+[gd_scene load_steps=9 format=3 uid="uid://bsei41k7wqabo"]
 
 [ext_resource type="PackedScene" uid="uid://bwwc6db2ea4x0" path="res://GameObjects/HitScanWeapon.tscn" id="1_m78fw"]
 [ext_resource type="PackedScene" uid="uid://c6j0ftnr2kbh8" path="res://Assets/SMG.glb" id="2_3ihdv"]
+[ext_resource type="PackedScene" uid="uid://benubpcidrgvd" path="res://GameObjects/Sparks.tscn" id="2_n77aa"]
 
-[node name="HitScanSMG" node_paths=PackedStringArray("weaponMesh") instance=ExtResource("1_m78fw")]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m78fw"]
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="Curve" id="Curve_3ihdv"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_n77aa"]
+curve = SubResource("Curve_3ihdv")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_appwj"]
+direction = Vector3(0, 0, -1)
+spread = 8.0
+initial_velocity_min = 8.0
+initial_velocity_max = 12.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_n77aa")
+
+[sub_resource type="BoxMesh" id="BoxMesh_kajcb"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[node name="HitScanSMG" node_paths=PackedStringArray("weaponMesh", "muzzleFlash") instance=ExtResource("1_m78fw")]
 weaponMesh = NodePath("SMG")
+muzzleFlash = NodePath("MuzzleFlash")
+sparks = ExtResource("2_n77aa")
 
 [node name="SMG" parent="." index="1" instance=ExtResource("2_3ihdv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.405, -0.366, -0.345)
+
+[node name="MuzzleFlash" type="GPUParticles3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4049468, -0.31663376, -1.4722493)
+material_override = SubResource("StandardMaterial3D_m78fw")
+cast_shadow = 0
+emitting = false
+lifetime = 0.06999999999999999
+one_shot = true
+explosiveness = 1.0
+fixed_fps = 60
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_appwj")
+draw_pass_1 = SubResource("BoxMesh_kajcb")

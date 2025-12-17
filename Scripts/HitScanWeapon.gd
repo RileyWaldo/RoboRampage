@@ -1,9 +1,12 @@
 extends Node3D
 
+@export var weaponDamage := 10
 @export var fireRate := 14.0
 @export var recoil := 0.05
 @export var recoilSpeed := 10.0
 @export var weaponMesh: Node3D
+@export var muzzleFlash: GPUParticles3D
+@export var sparks: PackedScene
 
 @onready var rayCast: RayCast3D = $RayCast3D
 @onready var cooldownTimer: Timer = $CooldownTimer
@@ -20,6 +23,13 @@ func Shoot() -> void:
 	if(!cooldownTimer.is_stopped()):
 		return
 		
+	muzzleFlash.restart()
 	cooldownTimer.start(1.0 / fireRate)
 	weaponMesh.position.z += recoil
-	print(rayCast.get_collider())
+	var collider = rayCast.get_collider()
+	if(collider):
+		var spark = sparks.instantiate()
+		add_child(spark)
+		spark.global_position = rayCast.get_collision_point()
+		if(collider is Enemy):
+			collider.health -= weaponDamage;

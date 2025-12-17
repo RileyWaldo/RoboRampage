@@ -1,12 +1,22 @@
 extends CharacterBody3D
+class_name Enemy
 
+@export var maxHealth := 100
 @export var moveSpeed := 5.0
 @export var attackRange := 1.5
+@export var damage := 20
 
 @onready var navigationAgent: NavigationAgent3D = $NavigationAgent3D
 @onready var animationPlayer: AnimationPlayer = $AnimationPlayer
 
-var player: Node3D
+var health: int = maxHealth:
+	set(value):
+		health = value
+		provoked = true
+		if(health <= 0):
+			Die()
+
+var player: Player
 var provoked := false
 var aggroRange := 12.0
 
@@ -37,9 +47,10 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, moveSpeed)
 
 	move_and_slide()
-	
+
+#called from animation player
 func Attack() -> void:
-	print("enemy attack!")
+	player.health -= damage
 	
 
 func LookAtTarget(direction: Vector3) -> void:
@@ -51,3 +62,5 @@ func LookAtTarget(direction: Vector3) -> void:
 func IsPlayerInRange(rangeTo: float) -> bool:
 	return global_position.distance_squared_to(player.global_position) <= pow(rangeTo, 2.0)
 	
+func Die() -> void:
+	queue_free()
