@@ -1,4 +1,5 @@
 extends Node3D
+class_name HitScan
 
 @export var weaponDamage := 10
 @export var fireRate := 14.0

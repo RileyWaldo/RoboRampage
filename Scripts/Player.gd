@@ -20,6 +20,7 @@ var mouseMotion: Vector2 = Vector2.ZERO
 @onready var cameraPivot: Node3D = $CameraPivot
 @onready var damageOverlay: AnimationPlayer = $DamageOverlay/AnimationPlayer
 @onready var gameOverMenu: Control = $GameOverMenu
+@onready var ammoHandler: AmmoHandler = %AmmoHandler
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
