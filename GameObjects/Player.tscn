@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dimljn12f5j31"]
+[gd_scene load_steps=18 format=3 uid="uid://dimljn12f5j31"]
 
 [ext_resource type="Script" uid="uid://rpjsjcxah425" path="res://Scripts/Player.gd" id="1_lu7l2"]
 [ext_resource type="Script" uid="uid://bgdqv05exlrcj" path="res://Scripts/SmoothCamera.gd" id="2_nj4ej"]
@@ -7,38 +7,88 @@
 [ext_resource type="PackedScene" uid="uid://bsei41k7wqabo" path="res://GameObjects/SMG.tscn" id="3_hwx2g"]
 [ext_resource type="Script" uid="uid://dl20dx2i03y04" path="res://Scripts/WeaponHandler.gd" id="3_v8uht"]
 [ext_resource type="Texture2D" uid="uid://b6lpow0xh5x4y" path="res://Assets/damage.png" id="5_ortbp"]
+[ext_resource type="Script" uid="uid://bqoxwpumtm7jk" path="res://Scripts/AmmoHandler.gd" id="6_0wesu"]
 [ext_resource type="PackedScene" uid="uid://2n6ncod8u278" path="res://GameObjects/GameOverMenu.tscn" id="6_hfly6"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_y23oo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_360t6"]
 
-[sub_resource type="Animation" id="Animation_hfly6"]
-resource_name = "TakeDamage"
-length = 0.4
+[sub_resource type="Animation" id="Animation_v8uht"]
+resource_name = "SwapWeapon"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
+tracks/0/path = NodePath("HitScanRifle:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(-2, -2),
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(-2, -2, -2),
 "update": 0,
-"values": [Vector2(1, 1), Vector2(1.5, 1.5)]
+"values": [Vector3(0, 0.01892662, 0), Vector3(0, -1.271, 0), Vector3(0, 0.019, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:modulate")
+tracks/1/path = NodePath("HitScanSMG:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(-2, -2),
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(-2, -2, -2),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, -1.271, 0), Vector3(0, 0.019, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5, 1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"SwapWeaponAnimationTrigger"
+}, {
+"args": [],
+"method": &"SwapWeaponAnimationEnd"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_0wesu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HitScanRifle:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.01892662, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HitScanSMG:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0sn6b"]
+_data = {
+&"RESET": SubResource("Animation_0wesu"),
+&"SwapWeapon": SubResource("Animation_v8uht")
 }
 
 [sub_resource type="Animation" id="Animation_nukyv"]
@@ -66,6 +116,34 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_hfly6"]
+resource_name = "TakeDamage"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_v8uht"]
@@ -116,14 +194,27 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2810733, 0)
 cull_mask = 2
 fov = 40.0
 
-[node name="WeaponHandler" type="Node3D" parent="SubViewportContainer/SubViewport/WeaponCamera" node_paths=PackedStringArray("weapon")]
+[node name="WeaponSwapAnimator" type="AnimationPlayer" parent="SubViewportContainer/SubViewport/WeaponCamera"]
+unique_name_in_owner = true
+root_node = NodePath("../WeaponHandler")
+libraries = {
+&"": SubResource("AnimationLibrary_0sn6b")
+}
+autoplay = "RESET"
+
+[node name="WeaponHandler" type="Node3D" parent="SubViewportContainer/SubViewport/WeaponCamera"]
 script = ExtResource("3_v8uht")
-weapon = [NodePath("HitScanRifle"), NodePath("HitScanSMG")]
 
-[node name="HitScanRifle" parent="SubViewportContainer/SubViewport/WeaponCamera/WeaponHandler" instance=ExtResource("3_hfly6")]
+[node name="HitScanRifle" parent="SubViewportContainer/SubViewport/WeaponCamera/WeaponHandler" node_paths=PackedStringArray("ammoHandler") instance=ExtResource("3_hfly6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01892662, 0)
+ammoHandler = NodePath("../../AmmoHandler")
 
-[node name="HitScanSMG" parent="SubViewportContainer/SubViewport/WeaponCamera/WeaponHandler" instance=ExtResource("3_hwx2g")]
+[node name="HitScanSMG" parent="SubViewportContainer/SubViewport/WeaponCamera/WeaponHandler" node_paths=PackedStringArray("ammoHandler") instance=ExtResource("3_hwx2g")]
+ammoHandler = NodePath("../../AmmoHandler")
+ammoType = 1
+
+[node name="AmmoHandler" type="Node" parent="SubViewportContainer/SubViewport/WeaponCamera"]
+script = ExtResource("6_0wesu")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchors_preset = 15
@@ -131,6 +222,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Crossheir" type="Control" parent="CenterContainer"]
 layout_mode = 2
@@ -144,6 +236,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(576, 324)
+mouse_filter = 2
 texture = ExtResource("5_ortbp")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="DamageOverlay"]

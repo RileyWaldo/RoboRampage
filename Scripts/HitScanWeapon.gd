@@ -5,6 +5,8 @@ extends Node3D
 @export var automatic := false
 @export var recoil := 0.05
 @export var recoilSpeed := 10.0
+@export var ammoHandler: AmmoHandler
+@export var ammoType: AmmoHandler.ammoType
 @export var weaponMesh: Node3D
 @export var muzzleFlash: GPUParticles3D
 @export var sparks: PackedScene
@@ -25,9 +27,10 @@ func Shoot() -> void:
 	else:
 		if(!Input.is_action_just_pressed("fire")):
 			return
-	if(!cooldownTimer.is_stopped()):
+	if(!cooldownTimer.is_stopped() or !ammoHandler.HasAmmo(ammoType)):
 		return
 		
+	ammoHandler.UseAmmo(ammoType)
 	muzzleFlash.restart()
 	cooldownTimer.start(1.0 / fireRate)
 	weaponMesh.position.z += recoil
