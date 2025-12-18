@@ -6,6 +6,8 @@ class_name Player
 ##How high the player can jump in meters
 @export var jumpHeight := 1.0
 @export var fallMultiplyer := 2.0
+@export var aimMultiplyer := 0.4
+@export var zoomSpeed := 20.0
 
 var health: int = maxHealth:
 	set(value):
@@ -21,9 +23,22 @@ var mouseMotion: Vector2 = Vector2.ZERO
 @onready var damageOverlay: AnimationPlayer = $DamageOverlay/AnimationPlayer
 @onready var gameOverMenu: Control = $GameOverMenu
 @onready var ammoHandler: AmmoHandler = %AmmoHandler
+@onready var smoothCamera: Camera3D = %SmoothCamera
+@onready var weaponCamera: Camera3D = %WeaponCamera
+
+@onready var smoothCameraFOV := smoothCamera.fov
+@onready var weaponCameraFOV := weaponCamera.fov
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	
+func _process(delta: float) -> void:
+	if(Input.is_action_pressed("aim")):
+		smoothCamera.fov = lerp(smoothCamera.fov, smoothCameraFOV * aimMultiplyer, delta * zoomSpeed)
+		weaponCamera.fov = lerp(weaponCamera.fov, weaponCameraFOV * aimMultiplyer, delta * zoomSpeed)
+	else:
+		smoothCamera.fov = lerp(smoothCamera.fov, smoothCameraFOV, delta * zoomSpeed)
+		weaponCamera.fov = lerp(weaponCamera.fov, weaponCameraFOV, delta * zoomSpeed)
 
 func _physics_process(delta: float) -> void:
 	HandleCameraRotation()
@@ -46,6 +61,9 @@ func _physics_process(delta: float) -> void:
 	if(direction):
 		velocity.x = direction.x * moveSpeed
 		velocity.z = direction.z * moveSpeed
+		if(Input.is_action_pressed("aim")):
+			velocity.x *= aimMultiplyer
+			velocity.z *= aimMultiplyer
 	else:
 		velocity.x = move_toward(velocity.x, 0, moveSpeed)
 		velocity.z = move_toward(velocity.z, 0, moveSpeed)
@@ -56,6 +74,8 @@ func _input(event: InputEvent) -> void:
 	if(event is InputEventMouseMotion):
 		if(Input.mouse_mode == Input.MOUSE_MODE_CAPTURED):
 			mouseMotion = -event.relative * 0.001
+			if(Input.is_action_pressed("aim")):
+				mouseMotion *= aimMultiplyer
 	
 		if(event is InputEventMouseButton):
 			if(event.pressed and event.button_index == MOUSE_BUTTON_LEFT):
