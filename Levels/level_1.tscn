@@ -1,0 +1,120 @@
+[gd_scene load_steps=6 format=3 uid="uid://c7kk6undkrujc"]
+
+[ext_resource type="Material" uid="uid://bw61ucewgmfi4" path="res://Levels/Materials/GrayMaterial.tres" id="1_dilhk"]
+[ext_resource type="PackedScene" uid="uid://dimljn12f5j31" path="res://GameObjects/Player.tscn" id="2_3mhv4"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rf6l5"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_syshm"]
+sky_material = SubResource("ProceduralSkyMaterial_rf6l5")
+
+[sub_resource type="Environment" id="Environment_rfktq"]
+background_mode = 2
+sky = SubResource("Sky_syshm")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="Level1" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_rfktq")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+
+[node name="LevelContents" type="Node3D" parent="."]
+
+[node name="Room" type="CSGBox3D" parent="LevelContents"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+material_override = ExtResource("1_dilhk")
+use_collision = true
+flip_faces = true
+size = Vector3(8, 4, 8)
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="LevelContents/Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+
+[node name="Corridor" type="CSGBox3D" parent="LevelContents/Room/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.2408639, -3)
+flip_faces = true
+size = Vector3(6, 2.5, 2)
+
+[node name="Corridor3" type="CSGBox3D" parent="LevelContents/Room/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, -1.7591361, 9)
+flip_faces = true
+size = Vector3(9, 2.5, 2)
+
+[node name="Corridor4" type="CSGBox3D" parent="LevelContents/Room/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 1.2408639, 9)
+flip_faces = true
+size = Vector3(14, 2.5, 2)
+
+[node name="Corridor2" type="CSGBox3D" parent="LevelContents/Room/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -1.7591361, 7)
+flip_faces = true
+size = Vector3(2, 2.5, 6)
+
+[node name="Corridor6" type="CSGBox3D" parent="LevelContents/Room/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 1.2408639, 6)
+flip_faces = true
+size = Vector3(2, 2.5, 4)
+
+[node name="Corridor5" type="CSGBox3D" parent="LevelContents/Room/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1.2408639, 3)
+flip_faces = true
+size = Vector3(2, 2.5, 10)
+
+[node name="Room2" type="CSGBox3D" parent="LevelContents/Room/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 0)
+flip_faces = true
+size = Vector3(8, 6, 8)
+
+[node name="Room4" type="CSGBox3D" parent="LevelContents/Room/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, 0)
+flip_faces = true
+size = Vector3(8, 3, 8)
+
+[node name="Room3" type="CSGBox3D" parent="LevelContents/Room/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9)
+flip_faces = true
+size = Vector3(8, 6, 8)
+
+[node name="HoleShortCut" type="CSGCylinder3D" parent="LevelContents/Room/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -0.5, -2)
+flip_faces = true
+radius = 1.0
+height = 1.0
+
+[node name="Overhang" type="CSGBox3D" parent="LevelContents"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 9)
+material_override = ExtResource("1_dilhk")
+use_collision = true
+size = Vector3(8, 3, 8)
+
+[node name="OverhangSub" type="CSGBox3D" parent="LevelContents/Overhang"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
+material_override = ExtResource("1_dilhk")
+operation = 2
+size = Vector3(6, 3, 6)
+
+[node name="OverhangSub2" type="CSGBox3D" parent="LevelContents/Overhang"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.25, 0)
+material_override = ExtResource("1_dilhk")
+operation = 2
+size = Vector3(2, 2.5, 2)
+
+[node name="Overhang2" type="CSGBox3D" parent="LevelContents"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -0.5, 0)
+material_override = ExtResource("1_dilhk")
+use_collision = true
+size = Vector3(8, 1, 8)
+
+[node name="OverhangSub" type="CSGBox3D" parent="LevelContents/Overhang2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
+material_override = ExtResource("1_dilhk")
+operation = 2
+size = Vector3(6, 1, 6)
+
+[node name="Player" parent="." instance=ExtResource("2_3mhv4")]
