@@ -7,7 +7,8 @@ class_name Enemy
 @export var damage := 20
 
 @onready var navigationAgent: NavigationAgent3D = $NavigationAgent3D
-@onready var animationPlayer: AnimationPlayer = $AnimationPlayer
+@onready var animationTree: AnimationTree = $AnimationTree
+@onready var playBack: AnimationNodeStateMachinePlayback = animationTree["parameters/playback"]
 
 var health: int = maxHealth:
 	set(value):
@@ -29,7 +30,7 @@ func _process(_delta: float) -> void:
 	if(provoked):
 		navigationAgent.target_position = player.global_position
 		if(IsPlayerInRange(attackRange)):
-			animationPlayer.play("Attack")
+			playBack.travel("Attack")
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
