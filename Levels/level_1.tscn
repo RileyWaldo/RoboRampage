@@ -1,7 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://c7kk6undkrujc"]
+[gd_scene load_steps=13 format=3 uid="uid://c7kk6undkrujc"]
 
 [ext_resource type="Material" uid="uid://bw61ucewgmfi4" path="res://Levels/Materials/GrayMaterial.tres" id="1_dilhk"]
 [ext_resource type="PackedScene" uid="uid://dimljn12f5j31" path="res://GameObjects/Player.tscn" id="2_3mhv4"]
+[ext_resource type="PackedScene" uid="uid://dp1ndbgr5jpm3" path="res://GameObjects/Lava.tscn" id="3_3mhv4"]
+[ext_resource type="PackedScene" uid="uid://bnl2v6mri2r0x" path="res://Assets/36_RR_G3D - Props/Vent.glb" id="4_rfktq"]
+[ext_resource type="PackedScene" uid="uid://cli1ibbcweatb" path="res://Assets/36_RR_G3D - Props/Screen.glb" id="5_0urlm"]
+[ext_resource type="PackedScene" uid="uid://4pivho2no28y" path="res://Assets/36_RR_G3D - Props/Generator.glb" id="6_77x7w"]
+[ext_resource type="PackedScene" uid="uid://vhcelkyvc3pk" path="res://Assets/36_RR_G3D - Props/Pipes.glb" id="7_0urlm"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rf6l5"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -15,6 +20,13 @@ background_mode = 2
 sky = SubResource("Sky_syshm")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_rf6l5"]
+resource_local_to_scene = true
+size = Vector2(10, 10)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_syshm"]
+points = PackedVector3Array(-5, 0, -5, -5, 0, 5, 5, 0, -5, 5, 0, 5)
 
 [node name="Level1" type="Node3D"]
 
@@ -117,4 +129,32 @@ material_override = ExtResource("1_dilhk")
 operation = 2
 size = Vector3(6, 1, 6)
 
+[node name="Decorations" type="Node3D" parent="LevelContents"]
+
 [node name="Player" parent="." instance=ExtResource("2_3mhv4")]
+
+[node name="Lava" parent="." instance=ExtResource("3_3mhv4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6118107, -3.2608829, 0.08013868)
+
+[node name="MeshInstance3D" parent="Lava" index="0"]
+mesh = SubResource("PlaneMesh_rf6l5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Lava"]
+shape = SubResource("ConvexPolygonShape3D_syshm")
+
+[node name="OmniLight3D" parent="Lava" index="2"]
+omni_range = 20.0
+
+[node name="Vent" parent="." instance=ExtResource("4_rfktq")]
+transform = Transform3D(-0.08939837, 0, -0.99599594, 0, 1, 0, 0.99599594, 0, -0.08939837, 0.48877907, 3.1044607, -3.8335135)
+
+[node name="Screen" parent="." instance=ExtResource("5_0urlm")]
+transform = Transform3D(-0.8290962, 0, 0.55910605, 0, 1, 0, -0.55910605, 0, -0.8290962, 3.4089706, 0.6801713, 3.3146698)
+
+[node name="Generator" parent="." instance=ExtResource("6_77x7w")]
+transform = Transform3D(0.9356906, 0, -0.3528217, 0, 1, 0, 0.3528217, 0, 0.9356906, 3.6832404, 1.654297, 0.6706505)
+
+[node name="Pipes" parent="." instance=ExtResource("7_0urlm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7368648, 0.39757428, 0.942544)
+
+[editable path="Lava"]
